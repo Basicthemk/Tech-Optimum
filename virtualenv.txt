@@ -1,0 +1,10 @@
+https://python.land/virtual-environments/virtualenv
+
+pip install virtualenv
+
+to run virtual environments
+venv/Scripts/activate
+
+
+to deactivate
+deactivate
