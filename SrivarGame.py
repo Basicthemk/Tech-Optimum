@@ -8,7 +8,7 @@ pygame.init()
 
 #Window size
 window_width = 800
-window_height = 600
+window_height = 403
 
 #Creates game screen
 screen = pygame.display.set_mode((window_width,window_height))
@@ -19,7 +19,7 @@ icon = pygame.image.load('puzzle.png')
 pygame.display.set_icon(icon)
 
 #Background
-background = pygame.image.load('background.png') 
+background = pygame.image.load('backgroundVS.png') 
 
 
 #Game Loop
