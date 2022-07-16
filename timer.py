@@ -8,7 +8,7 @@ pygame.init()
 
 #Window size
 window_width = 800
-window_height = 600
+window_height = 534
 
 #Creates game screen
 screen = pygame.display.set_mode((window_width,window_height))
@@ -38,7 +38,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
-    screen.blit(font.render(text, True, (255, 255, 255)), (32, 48))
+    screen.blit(font.render(text, True, (255, 255, 255)), (650, 48))
     pygame.display.flip()
     clock.tick(60)
     pygame.display.update()
