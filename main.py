@@ -79,15 +79,12 @@ letters = select_letters()
 def checker(word):
     test = enchant.Dict("en_US")
     if test.check(word) == True:
-        print("yes")
         return True
     else:
-        print("no")
         return False
 
 def calculate_score(word,all_guesses):
     length = {3:100,4:400, 5:800, 6:1200, 7:2000}
-    print('working')
     if len(word) in length.keys():
         all_guesses.append(word)
         return length[len(word)]
@@ -99,7 +96,7 @@ def start():
 
     start_img = pygame.image.load('start.png').convert_alpha()
     exit_img = pygame.image.load('exit.png').convert_alpha()
-    start_button = button.Button(100, 200, start_img, 0.8)
+    start_button = button.Button(120, 200, start_img, 0.8)
     exit_button = button.Button(450, 200, exit_img, 0.8)
 
     run = True
@@ -126,7 +123,7 @@ def game():
     clock = pygame.time.Clock()
     letters = select_letters()
     #Timer Counter
-    counter, text = 10, 'Time: 10'.rjust(3)
+    counter, text = 30, 'Time: 30'.rjust(3)
     pygame.time.set_timer(pygame.USEREVENT, 1000)
     font = pygame.font.SysFont('Consolas', 30)
 
@@ -139,7 +136,7 @@ def game():
     img = font.render(word, True, BLACK)
 
     rect = img.get_rect()
-    rect.topleft = (60, 100)
+    rect.topleft = (285, 150)
     cursor = Rect(rect.topright, (3, rect.height))
 
 
@@ -187,8 +184,8 @@ def game():
                 cursor.topleft = rect.topright    
                             
         screen.blit(img, rect)        
-        screen.blit(font.render(text, True, (255, 255, 255)), (550, 20))
-        screen.blit(font.render("Score: " + str(score), True, (0, 0, 0)), (80, 20))
+        screen.blit(font.render(text, True, (255, 255, 0)), (500, 20))
+        screen.blit(font.render("Score: " + str(score), True, (255,20,147)), (80, 20))
         if time.time() % 1 > 0.5:
             pygame.draw.rect(screen, BLACK, cursor)
         pygame.display.flip()
@@ -202,12 +199,22 @@ def end(score):
 
     final_score = my_font.render(f'You scored {score} points!!', False, (0, 0, 0))
     final = pygame.image.load('endscreen.png') 
+
+    start_img = pygame.image.load('start.png').convert_alpha()
+    exit_img = pygame.image.load('exit.png').convert_alpha()
+    start_button = button.Button(120, 200, start_img, 0.8)
+    exit_button = button.Button(450, 200, exit_img, 0.8)
+
     run = True
     while run:
         screen.blit(final, (0,0))
         screen.blit(final_score, (120,100))
 
         for event in pygame.event.get():
+            if start_button.draw(screen):
+                game()
+            if exit_button.draw(screen):
+                exit()
             #quit game
             if event.type == pygame.QUIT:
                 run = False
