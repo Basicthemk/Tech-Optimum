@@ -1,11 +1,12 @@
 from tkinter import N
 from numpy import c_
-import pygame
+import pygame, sys
 import random 
 import sys
 from pygame.locals import *
 import enchant
 import time
+import button
 
 
 #Intialize pygame
@@ -84,81 +85,130 @@ def checker(word):
         print("no")
         return False
 
-def calculate_score(word):
+def calculate_score(word,all_guesses):
     length = {3:100,4:400, 5:800, 6:1200, 7:2000}
     print('working')
     if len(word) in length.keys():
         all_guesses.append(word)
         return length[len(word)]
 
-#Timer Counter
-counter, text = 60, 'Time: 60'.rjust(3)
-pygame.time.set_timer(pygame.USEREVENT, 1000)
-font = pygame.font.SysFont('Consolas', 30)
 
-#Game Loop
-running = True
+def start():
+    font = pygame.font.SysFont('Consolas', 30)
+    background = pygame.image.load('startbackground.png') 
 
-all_guesses = []
-word = ""
-font = pygame.font.SysFont(None, 70)
-img = font.render(word, True, BLACK)
+    start_img = pygame.image.load('start.png').convert_alpha()
+    exit_img = pygame.image.load('exit.png').convert_alpha()
+    start_button = button.Button(100, 200, start_img, 0.8)
+    exit_button = button.Button(450, 200, exit_img, 0.8)
 
-rect = img.get_rect()
-rect.topleft = (60, 100)
-cursor = Rect(rect.topright, (3, rect.height))
+    run = True
+    while run:
+        screen.blit(background, (0,0))
 
-
-
-score = 0
-while running:
-
-    screen.blit(background, (0,0))
-    for nums, pictures in enumerate(letters):
-        screen.blit(pictures, (60 + 100*nums,300))
-    for event in pygame.event.get():
-        if event.type == pygame.USEREVENT: 
-            counter -= 1
-            text = "Time:" +str(counter).rjust(3) if counter > 0 else 'Game Over!'
-        if event.type == pygame.QUIT:
-            running = False
+        if start_button.draw(screen):
+            game()
+        if exit_button.draw(screen):
             exit()
-        #If keystroke is pressed, check what it is
-        if event.type  == pygame.KEYDOWN:
-            if event.key == K_BACKSPACE:
-                if len(word)>0:
-                    word = word[:-1]
-            else:
-                word += event.unicode
-            
-    
-            if event.key == pygame.K_RETURN: # When enter button is clicked
-                word = word[:-1]
-                if word in all_guesses:
-                    word = ""
+
+        #event handler
+        for event in pygame.event.get():
+            #quit game
+            if event.type == pygame.QUIT:
+                run = False
+
+        pygame.display.update()
+
+
+def game():
+    #Background
+    background = pygame.image.load('backgroundVS.png') 
+    clock = pygame.time.Clock()
+    letters = select_letters()
+    #Timer Counter
+    counter, text = 60, 'Time: 60'.rjust(3)
+    pygame.time.set_timer(pygame.USEREVENT, 1000)
+    font = pygame.font.SysFont('Consolas', 30)
+
+    #Game Loop
+    running = True
+
+    all_guesses = []
+    word = ""
+    font = pygame.font.SysFont(None, 70)
+    img = font.render(word, True, BLACK)
+
+    rect = img.get_rect()
+    rect.topleft = (60, 100)
+    cursor = Rect(rect.topright, (3, rect.height))
+
+
+
+    score = 0
+    while running:
+
+        screen.blit(background, (0,0))
+        for nums, pictures in enumerate(letters):
+            screen.blit(pictures, (60 + 100*nums,300))
+        for event in pygame.event.get():
+            if event.type == pygame.USEREVENT: 
+                counter -= 1
+                text = "Time:" +str(counter).rjust(3) if counter > 0 else 'Game Over!'
+            if counter == 0:
+                end()
+            if event.type == pygame.QUIT:
+                running = False
+                exit()
+            #If keystroke is pressed, check what it is
+            if event.type  == pygame.KEYDOWN:
+                if event.key == K_BACKSPACE:
+                    if len(word)>0:
+                        word = word[:-1]
                 else:
-                    if len(set(word)) == len(word) and len(word) <=7:  
-                        print("hi")
-                        if checker(word) == True: # HERE WE HAVE TO KEEP OUR STORED INPUT AND CHECK IT
-                            score += calculate_score(word)
-                            print("bye")
-                            word = ""
-                        else:
-                            word = ""
-                    else:
-                        print("test")
+                    word += event.unicode
+                
+        
+                if event.key == pygame.K_RETURN: # When enter button is clicked
+                    word = word[:-1]
+                    if word in all_guesses:
                         word = ""
-            img = font.render(word, True, BLACK)
-            rect.size=img.get_size()
-            cursor.topleft = rect.topright    
-                        
-    screen.blit(img, rect)        
-    screen.blit(font.render(text, True, (255, 255, 255)), (550, 20))
-    screen.blit(font.render("Score: " + str(score), True, (0, 0, 0)), (80, 20))
-    if time.time() % 1 > 0.5:
-        pygame.draw.rect(screen, BLACK, cursor)
-    pygame.display.flip()
-    clock.tick(60)
-    pygame.display.update()
+                    else:
+                        if len(set(word)) == len(word) and len(word) <=7:  
+                            print("hi")
+                            if checker(word) == True: # HERE WE HAVE TO KEEP OUR STORED INPUT AND CHECK IT
+                                score += calculate_score(word,all_guesses)
+                                print("bye")
+                                word = ""
+                            else:
+                                word = ""
+                        else:
+                            print("test")
+                            word = ""
+                img = font.render(word, True, BLACK)
+                rect.size=img.get_size()
+                cursor.topleft = rect.topright    
+                            
+        screen.blit(img, rect)        
+        screen.blit(font.render(text, True, (255, 255, 255)), (550, 20))
+        screen.blit(font.render("Score: " + str(score), True, (0, 0, 0)), (80, 20))
+        if time.time() % 1 > 0.5:
+            pygame.draw.rect(screen, BLACK, cursor)
+        pygame.display.flip()
+        clock.tick(60)
+        pygame.display.update()
 
 
+def end():
+    background = pygame.image.load('endscreen.png') 
+    run = True
+    while run:
+        screen.blit(background, (0,0))
+        for event in pygame.event.get():
+            #quit game
+            if event.type == pygame.QUIT:
+                run = False
+
+
+
+end()
+# start()
