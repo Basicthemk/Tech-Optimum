@@ -21,7 +21,7 @@ BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((window_width,window_height))
 
 #Title & Icon
-pygame.display.set_caption("Word Game")
+pygame.display.set_caption("Wordlr")
 icon = pygame.image.load('puzzle.png')
 pygame.display.set_icon(icon)
 
