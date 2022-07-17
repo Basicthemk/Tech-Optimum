@@ -88,8 +88,9 @@ while True:
                 text = "Time:" +str(counter).rjust(3) if counter > 0 else 'Game Over!'
             if event.type == pygame.QUIT:
                 running = False
+                exit()
             #If keystroke is pressed, check what it is
-            if event.type  == pygame.KEYDOWN:
+            if event.type  == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     screen.blit(a_image, (50,25))
                 if event.key == pygame.K_b:
