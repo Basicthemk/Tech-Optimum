@@ -50,7 +50,6 @@ x_image =
 y_image = 
 z_image = 
 
-
 #Timer Counter
 counter, text = 60, 'Time: 60'.rjust(3)
 pygame.time.set_timer(pygame.USEREVENT, 1000)
