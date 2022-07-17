@@ -4,6 +4,8 @@ import pygame
 import random 
 import sys
 import pygame.locals
+import enchant
+
 
 #Intialize pygame
 pygame.init()
@@ -54,7 +56,7 @@ z_image = pygame.image.load('Alphabets/Z.png')
 
 
 
-
+# Selecting 7 letters
 def select_letters():
     store_letters = []
     vowels = [a_image, e_image, i_image, o_image, u_image]
@@ -70,6 +72,18 @@ def select_letters():
     return store_letters
 letters = select_letters()
 
+# validating if word is real
+def checker(word):
+    test = enchant.Dict("en_US")
+    if test.check(word) == True:
+        return True
+    else:
+        return False
+
+def calculate_score(word):
+    length = {3:100,4:400, 5:800, 6:1200, 7:2000}
+    if len(word) in length.keys():
+        return length[len(word)]
 
 #Timer Counter
 counter, text = 60, 'Time: 60'.rjust(3)
@@ -81,6 +95,7 @@ running = True
 
 all_guesses = []
 word = ""
+score = 0
 while running:
 
     screen.blit(background, (0,0))
@@ -95,60 +110,15 @@ while running:
             exit()
         #If keystroke is pressed, check what it is
         if event.type  == pygame.KEYDOWN:
-            if event.key == pygame.K_a:
-                screen.blit(a_image, (50,25))
-            if event.key == pygame.K_b:
-                print('b')
-            if event.key == pygame.K_c:
-                print('c')
-            if event.key == pygame.K_d:
-                print('A')
-            if event.key == pygame.K_e:
-                print('b')
-            if event.key == pygame.K_f:
-                print('c')
-            if event.key == pygame.K_g:
-                print('A')
-            if event.key == pygame.K_h:
-                print('b')
-            if event.key == pygame.K_i:
-                print('c')
-            if event.key == pygame.K_j:
-                print('A')
-            if event.key == pygame.K_k:
-                print('b')
-            if event.key == pygame.K_l:
-                print('c')
-            if event.key == pygame.K_m:
-                print('A')
-            if event.key == pygame.K_n:
-                print('b')
-            if event.key == pygame.K_o:
-                print('c')
-            if event.key == pygame.K_p:
-                print('A')
-            if event.key == pygame.K_q:
-                print('b')
-            if event.key == pygame.K_r:
-                print('c')
-            if event.key == pygame.K_s:
-                print('A')
-            if event.key == pygame.K_t:
-                print('b')
-            if event.key == pygame.K_u:
-                print('c')
-            if event.key == pygame.K_v:
-                print('A')
-            if event.key == pygame.K_w:
-                print('b')
-            if event.key == pygame.K_x:
-                print('c')
-            if event.key == pygame.K_y:
-                print('A')
-            if event.key == pygame.K_z:
-                print('b')
-
+            if event.key == pygame.K_RETURN: # When enter button is clicked
+                if set(word) == len(word) and len(word) <=7:
+                    if checker() == True: # HERE WE HAVE TO KEEP OUR STORED INPUT AND CHECK IT
+                        score += calculate_score(word)
+                
+                        
+            
     screen.blit(font.render(text, True, (255, 255, 255)), (620, 20))
+    screen.blit(font.render(str(score), True, (0, 0, 0)), (80, 20))
     pygame.display.flip()
     clock.tick(60)
     pygame.display.update()
