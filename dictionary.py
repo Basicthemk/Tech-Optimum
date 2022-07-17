@@ -6,3 +6,4 @@ def checker(word):
         return True
     else:
         return False
+print(checker("hello"))

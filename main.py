@@ -78,13 +78,17 @@ letters = select_letters()
 def checker(word):
     test = enchant.Dict("en_US")
     if test.check(word) == True:
+        print("yes")
         return True
     else:
+        print("no")
         return False
 
 def calculate_score(word):
     length = {3:100,4:400, 5:800, 6:1200, 7:2000}
+    print('working')
     if len(word) in length.keys():
+        all_guesses.append(word)
         return length[len(word)]
 
 #Timer Counter
@@ -126,16 +130,27 @@ while running:
                     word = word[:-1]
             else:
                 word += event.unicode
-            img = font.render(word, True, BLACK)
-            rect.size=img.get_size()
-            cursor.topleft = rect.topright
-    
+            
     
             if event.key == pygame.K_RETURN: # When enter button is clicked
-                if set(word) == len(word) and len(word) <=7:
-                    if checker() == True: # HERE WE HAVE TO KEEP OUR STORED INPUT AND CHECK IT
-                        score += calculate_score(word)
-                
+                word = word[:-1]
+                if word in all_guesses:
+                    word = ""
+                else:
+                    if len(set(word)) == len(word) and len(word) <=7:  
+                        print("hi")
+                        if checker(word) == True: # HERE WE HAVE TO KEEP OUR STORED INPUT AND CHECK IT
+                            score += calculate_score(word)
+                            print("bye")
+                            word = ""
+                        else:
+                            word = ""
+                    else:
+                        print("test")
+                        word = ""
+            img = font.render(word, True, BLACK)
+            rect.size=img.get_size()
+            cursor.topleft = rect.topright    
                         
     screen.blit(img, rect)        
     screen.blit(font.render(text, True, (255, 255, 255)), (550, 20))
