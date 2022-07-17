@@ -84,7 +84,7 @@ def checker(word):
         return False
 
 def calculate_score(word,all_guesses):
-    length = {3:100,4:400, 5:800, 6:1200, 7:2000}
+    length = {1:0,2:0, 3:100,4:400, 5:800, 6:1200, 7:2000}
     if len(word) in length.keys():
         all_guesses.append(word)
         return length[len(word)]
