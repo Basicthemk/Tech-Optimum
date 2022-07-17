@@ -1,3 +1,5 @@
+from tkinter import N
+from numpy import c_
 import pygame
 import random 
 import sys
@@ -23,32 +25,50 @@ background = pygame.image.load('backgroundVS.png')
 clock = pygame.time.Clock()
 
 #Loading Alphabets
-a_image = 
-b_image = 
-c_image = 
-d_image = 
-e_image = 
-f_image = 
-g_image = 
-h_image = 
-i_image = 
-j_image = 
-k_image = 
-l_image = 
-m_image = 
-n_image = 
-o_image = 
-p_image = 
-q_image = 
-r_image = 
-s_image = 
-t_image = 
-u_image = 
-v_image = 
-w_image = 
-x_image = 
-y_image = 
-z_image = 
+a_image = pygame.image.load('Alphabets/A.png') 
+b_image = pygame.image.load('Alphabets/B.png') 
+c_image = pygame.image.load('Alphabets/C.png') 
+d_image = pygame.image.load('Alphabets/D.png') 
+e_image = pygame.image.load('Alphabets/E.png') 
+f_image = pygame.image.load('Alphabets/F.png') 
+g_image = pygame.image.load('Alphabets/G.png') 
+h_image = pygame.image.load('Alphabets/H.png') 
+i_image = pygame.image.load('Alphabets/I.png') 
+j_image = pygame.image.load('Alphabets/J.png') 
+k_image = pygame.image.load('Alphabets/K.png') 
+l_image = pygame.image.load('Alphabets/L.png') 
+m_image = pygame.image.load('Alphabets/M.png') 
+n_image = pygame.image.load('Alphabets/N.png') 
+o_image = pygame.image.load('Alphabets/O.png') 
+p_image = pygame.image.load('Alphabets/P.png') 
+q_image = pygame.image.load('Alphabets/Q.png') 
+r_image = pygame.image.load('Alphabets/R.png') 
+s_image = pygame.image.load('Alphabets/S.png') 
+t_image = pygame.image.load('Alphabets/T.png') 
+u_image = pygame.image.load('Alphabets/U.png') 
+v_image = pygame.image.load('Alphabets/V.png') 
+w_image = pygame.image.load('Alphabets/W.png') 
+x_image = pygame.image.load('Alphabets/X.png') 
+y_image = pygame.image.load('Alphabets/Y.png') 
+z_image = pygame.image.load('Alphabets/Z.png') 
+
+
+
+
+def select_letters():
+    store_letters = []
+    vowels = [a_image, e_image, i_image, o_image, u_image]
+    consonants = [b_image, c_image, d_image, f_image, g_image, h_image, j_image, k_image, l_image, m_image, n_image, p_image, q_image, r_image, s_image, t_image, v_image, w_image, x_image, y_image, z_image]
+    while len(store_letters) != 2:
+        v_select = random.choice(vowels)
+        if v_select not in store_letters:
+            store_letters.append(v_select)
+    while len(store_letters) != 7:
+        c_select = random.choice(consonants)
+        if c_select not in store_letters:
+            store_letters.append(c_select)
+
+
 
 
 #Timer Counter
@@ -72,7 +92,7 @@ while True:
             #If keystroke is pressed, check what it is
             if event.type  == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
-                    print('A')
+                    screen.blit(a_image, (50,25))
                 if event.key == pygame.K_b:
                     print('b')
                 if event.key == pygame.K_c:
