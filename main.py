@@ -3,8 +3,9 @@ from numpy import c_
 import pygame
 import random 
 import sys
-import pygame.locals
+from pygame.locals import *
 import enchant
+import time
 
 
 #Intialize pygame
@@ -13,6 +14,7 @@ pygame.init()
 #Window size
 window_width = 800
 window_height = 403
+BLACK = (0, 0, 0)
 
 #Creates game screen
 screen = pygame.display.set_mode((window_width,window_height))
@@ -95,6 +97,15 @@ running = True
 
 all_guesses = []
 word = ""
+font = pygame.font.SysFont(None, 70)
+img = font.render(word, True, BLACK)
+
+rect = img.get_rect()
+rect.topleft = (60, 100)
+cursor = Rect(rect.topright, (3, rect.height))
+
+
+
 score = 0
 while running:
 
@@ -110,15 +121,27 @@ while running:
             exit()
         #If keystroke is pressed, check what it is
         if event.type  == pygame.KEYDOWN:
+            if event.key == K_BACKSPACE:
+                if len(word)>0:
+                    word = word[:-1]
+            else:
+                word += event.unicode
+            img = font.render(word, True, BLACK)
+            rect.size=img.get_size()
+            cursor.topleft = rect.topright
+    
+    
             if event.key == pygame.K_RETURN: # When enter button is clicked
                 if set(word) == len(word) and len(word) <=7:
                     if checker() == True: # HERE WE HAVE TO KEEP OUR STORED INPUT AND CHECK IT
                         score += calculate_score(word)
                 
                         
-            
-    screen.blit(font.render(text, True, (255, 255, 255)), (620, 20))
-    screen.blit(font.render(str(score), True, (0, 0, 0)), (80, 20))
+    screen.blit(img, rect)        
+    screen.blit(font.render(text, True, (255, 255, 255)), (550, 20))
+    screen.blit(font.render("Score: " + str(score), True, (0, 0, 0)), (80, 20))
+    if time.time() % 1 > 0.5:
+        pygame.draw.rect(screen, BLACK, cursor)
     pygame.display.flip()
     clock.tick(60)
     pygame.display.update()

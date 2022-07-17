@@ -9,9 +9,9 @@ GRAY = (200, 200, 200)
 pygame.init()
 screen = pygame.display.set_mode((640, 240))
 
-text = '  '
+word = ''
 font = pygame.font.SysFont(None, 48)
-img = font.render(text, True, RED)
+img = font.render(word, True, BLACK)
 
 rect = img.get_rect()
 rect.topleft = (20, 20)
@@ -27,18 +27,18 @@ while running:
         
         if event.type == KEYDOWN:
             if event.key == K_BACKSPACE:
-                if len(text)>0:
-                    text = text[:-1]
+                if len(word)>0:
+                    word = word[:-1]
             else:
-                text += event.unicode
-            img = font.render(text, True, RED)
+                word += event.unicode
+            img = font.render(word, True, BLACK)
             rect.size=img.get_size()
             cursor.topleft = rect.topright
     
     screen.fill(background)
     screen.blit(img, rect)
     if time.time() % 1 > 0.5:
-        pygame.draw.rect(screen, RED, cursor)
+        pygame.draw.rect(screen, BLACK, cursor)
     pygame.display.update()
 
 pygame.quit()
