@@ -70,7 +70,6 @@ def select_letters():
 
 
 
-
 #Timer Counter
 counter, text = 60, 'Time: 60'.rjust(3)
 pygame.time.set_timer(pygame.USEREVENT, 1000)
