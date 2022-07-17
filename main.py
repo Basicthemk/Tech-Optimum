@@ -67,7 +67,8 @@ def select_letters():
         c_select = random.choice(consonants)
         if c_select not in store_letters:
             store_letters.append(c_select)
-
+    return store_letters
+letters = select_letters()
 
 
 #Timer Counter
@@ -77,75 +78,79 @@ font = pygame.font.SysFont('Consolas', 30)
 
 #Game Loop
 running = True
-while True:
 
-    while running:
+all_guesses = []
+word = ""
+while running:
 
-        screen.blit(background, (0,0))
-        for event in pygame.event.get():
-            if event.type == pygame.USEREVENT: 
-                counter -= 1
-                text = "Time:" +str(counter).rjust(3) if counter > 0 else 'Game Over!'
-            if event.type == pygame.QUIT:
-                running = False
-            #If keystroke is pressed, check what it is
-            if event.type  == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    screen.blit(a_image, (50,25))
-                if event.key == pygame.K_b:
-                    print('b')
-                if event.key == pygame.K_c:
-                    print('c')
-                if event.key == pygame.K_d:
-                    print('A')
-                if event.key == pygame.K_e:
-                    print('b')
-                if event.key == pygame.K_f:
-                    print('c')
-                if event.key == pygame.K_g:
-                    print('A')
-                if event.key == pygame.K_h:
-                    print('b')
-                if event.key == pygame.K_i:
-                    print('c')
-                if event.key == pygame.K_j:
-                    print('A')
-                if event.key == pygame.K_k:
-                    print('b')
-                if event.key == pygame.K_l:
-                    print('c')
-                if event.key == pygame.K_m:
-                    print('A')
-                if event.key == pygame.K_n:
-                    print('b')
-                if event.key == pygame.K_o:
-                    print('c')
-                if event.key == pygame.K_p:
-                    print('A')
-                if event.key == pygame.K_q:
-                    print('b')
-                if event.key == pygame.K_r:
-                    print('c')
-                if event.key == pygame.K_s:
-                    print('A')
-                if event.key == pygame.K_t:
-                    print('b')
-                if event.key == pygame.K_u:
-                    print('c')
-                if event.key == pygame.K_v:
-                    print('A')
-                if event.key == pygame.K_w:
-                    print('b')
-                if event.key == pygame.K_x:
-                    print('c')
-                if event.key == pygame.K_y:
-                    print('A')
-                if event.key == pygame.K_z:
-                    print('b')
+    screen.blit(background, (0,0))
+    for nums, pictures in enumerate(letters):
+        screen.blit(pictures, (60 + 100*nums,300))
+    for event in pygame.event.get():
+        if event.type == pygame.USEREVENT: 
+            counter -= 1
+            text = "Time:" +str(counter).rjust(3) if counter > 0 else 'Game Over!'
+        if event.type == pygame.QUIT:
+            running = False
+            exit()
+        #If keystroke is pressed, check what it is
+        if event.type  == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                screen.blit(a_image, (50,25))
+            if event.key == pygame.K_b:
+                print('b')
+            if event.key == pygame.K_c:
+                print('c')
+            if event.key == pygame.K_d:
+                print('A')
+            if event.key == pygame.K_e:
+                print('b')
+            if event.key == pygame.K_f:
+                print('c')
+            if event.key == pygame.K_g:
+                print('A')
+            if event.key == pygame.K_h:
+                print('b')
+            if event.key == pygame.K_i:
+                print('c')
+            if event.key == pygame.K_j:
+                print('A')
+            if event.key == pygame.K_k:
+                print('b')
+            if event.key == pygame.K_l:
+                print('c')
+            if event.key == pygame.K_m:
+                print('A')
+            if event.key == pygame.K_n:
+                print('b')
+            if event.key == pygame.K_o:
+                print('c')
+            if event.key == pygame.K_p:
+                print('A')
+            if event.key == pygame.K_q:
+                print('b')
+            if event.key == pygame.K_r:
+                print('c')
+            if event.key == pygame.K_s:
+                print('A')
+            if event.key == pygame.K_t:
+                print('b')
+            if event.key == pygame.K_u:
+                print('c')
+            if event.key == pygame.K_v:
+                print('A')
+            if event.key == pygame.K_w:
+                print('b')
+            if event.key == pygame.K_x:
+                print('c')
+            if event.key == pygame.K_y:
+                print('A')
+            if event.key == pygame.K_z:
+                print('b')
 
-        screen.blit(font.render(text, True, (255, 255, 255)), (620, 20))
-        pygame.display.flip()
-        clock.tick(60)
-        pygame.display.update()
+    screen.blit(font.render(text, True, (255, 255, 255)), (620, 20))
+    pygame.display.flip()
+    clock.tick(60)
+    pygame.display.update()
 
 
