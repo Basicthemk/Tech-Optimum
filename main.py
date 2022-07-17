@@ -126,7 +126,7 @@ def game():
     clock = pygame.time.Clock()
     letters = select_letters()
     #Timer Counter
-    counter, text = 60, 'Time: 60'.rjust(3)
+    counter, text = 10, 'Time: 10'.rjust(3)
     pygame.time.set_timer(pygame.USEREVENT, 1000)
     font = pygame.font.SysFont('Consolas', 30)
 
@@ -155,7 +155,7 @@ def game():
                 counter -= 1
                 text = "Time:" +str(counter).rjust(3) if counter > 0 else 'Game Over!'
             if counter == 0:
-                end()
+                end(score)
             if event.type == pygame.QUIT:
                 running = False
                 exit()
@@ -177,12 +177,10 @@ def game():
                             print("hi")
                             if checker(word) == True: # HERE WE HAVE TO KEEP OUR STORED INPUT AND CHECK IT
                                 score += calculate_score(word,all_guesses)
-                                print("bye")
                                 word = ""
                             else:
                                 word = ""
                         else:
-                            print("test")
                             word = ""
                 img = font.render(word, True, BLACK)
                 rect.size=img.get_size()
@@ -198,17 +196,24 @@ def game():
         pygame.display.update()
 
 
-def end():
-    background = pygame.image.load('endscreen.png') 
+def end(score):
+    pygame.font.init()
+    my_font = pygame.font.SysFont('Consolas', 40)
+
+    final_score = my_font.render(f'You scored {score} points!!', False, (0, 0, 0))
+    final = pygame.image.load('endscreen.png') 
     run = True
     while run:
-        screen.blit(background, (0,0))
+        screen.blit(final, (0,0))
+        screen.blit(final_score, (120,100))
+
         for event in pygame.event.get():
             #quit game
             if event.type == pygame.QUIT:
                 run = False
+                exit()
+            pygame.display.update()
 
 
-
-end()
-# start()
+# main
+start()
